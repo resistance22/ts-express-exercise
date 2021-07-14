@@ -1,4 +1,5 @@
 import express, { Application, Request, Response } from 'express'
+import { black } from 'chalk'
 import config from './config'
 const app = express()
 
@@ -10,5 +11,5 @@ app.get('/', (req: Request, res: Response): void => {
 })
 
 app.listen(port, host, () => {
-  console.log(`Server is Running on Port: [${port}] and Host: [${host}]`)
+  console.log(`Server is Running on Port: [${black.bgGreen(port)}] and Host: [${black.bgYellow('http://' + host)}]`)
 })
