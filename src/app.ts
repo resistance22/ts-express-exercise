@@ -8,6 +8,8 @@ const app: Application = express()
 
 const port = config.port as number
 const host = config.host as string
+
+// Reuquest Logger
 applyMiddleware(app, new ReqLoggerMiddleWare())
 
 // Error Handling
