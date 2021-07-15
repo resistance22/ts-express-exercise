@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/app.ts",
-    "build": "tsc -p ."
+    "build": "rm -rf ./dist && tsc -p ."
   },
   "repository": {
     "type": "git",
@@ -26,7 +26,6 @@
     "pino-pretty": "^5.1.1"
   },
   "devDependencies": {
-    "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.13",
     "@types/node": "^16.3.2",
     "@types/pino": "^6.3.9",
