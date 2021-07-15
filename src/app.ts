@@ -3,13 +3,12 @@ import { black } from 'chalk'
 import config from './config'
 import logger from './logger'
 import { ReqLoggerMiddleWare, ErrorHandlerMiddleWare } from './middlewares'
-
+import { applyMiddleware } from './utils'
 const app: Application = express()
 
 const port = config.port as number
 const host = config.host as string
-const reqLoggerMiddleWare = new ReqLoggerMiddleWare()
-app.use(reqLoggerMiddleWare.middleware) 
+applyMiddleware(app, new ReqLoggerMiddleWare())
 
 // Error Handling
 app.use(ErrorHandlerMiddleWare)
