@@ -1,1 +1,1 @@
-Simple Ts express exercise
+Simple TypeScript express application starter
