@@ -4,8 +4,8 @@ import config from './config'
 import logger from './logger'
 import { ReqLoggerMiddleWare, ErrorHandlerMiddleWare } from './middlewares'
 import { applyMiddleware } from './utils'
-const app: Application = express()
 
+const app: Application = express()
 const port = config.port as number
 const host = config.host as string
 
