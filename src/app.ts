@@ -8,7 +8,8 @@ const app: Application = express()
 
 const port = config.port as number
 const host = config.host as string
-app.use(ReqLoggerMiddleWare)
+const reqLoggerMiddleWare = new ReqLoggerMiddleWare()
+app.use(reqLoggerMiddleWare.middleware) 
 
 // Error Handling
 app.use(ErrorHandlerMiddleWare)
