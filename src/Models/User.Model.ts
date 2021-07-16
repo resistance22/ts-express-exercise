@@ -1,7 +1,7 @@
 import { Schema, model, HookNextFunction, Document } from 'mongoose'
 import bcrypt from 'bcrypt'
 
-interface User extends Document {
+export interface User extends Document {
   name: string
   email: string
   password: string
@@ -10,17 +10,15 @@ interface User extends Document {
   mobileNumber: string
   createdAt: Date
   updatedAt: Date
-  comparePassword(a: string): Promise<boolean>
 }
 
 const userSchema = new Schema<User>(
   {
-    name: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    mobileNumber: { type: String, required: true }
+    mobileNumber: { type: String, unique: true, required: true }
   },
   {
     timestamps: true
@@ -41,6 +39,6 @@ userSchema.methods.comparePassword = async function (plainPassword: string) {
   return bcrypt.compare(plainPassword, UserDocument.password)
 }
 
-const UserModel = model<User>('User', userSchema)
+const UserModel = model<User>('User', userSchema, 'users')
 
 export default UserModel
