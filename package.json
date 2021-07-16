@@ -4,7 +4,7 @@
   "description": "Simple Ts express exercise",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/app.ts",
+    "dev": "nodemon --ignore src/Tests/**/*.test.ts src/app.ts",
     "build": "rm -rf ./dist && tsc -p .",
     "start": "node ./dist/app.js",
     "test": "NODE_ENV=test mocha -r ts-node/register --file 'src/Tests/mocha-setup.ts' src/Tests/**/*.test.ts"
