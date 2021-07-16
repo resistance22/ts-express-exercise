@@ -7,8 +7,10 @@ interface User extends Document {
   password: string
   firstName: string
   lastName: string
+  mobileNumber: string
   createdAt: Date
   updatedAt: Date
+  comparePassword(a: string): Promise<boolean>
 }
 
 const userSchema = new Schema<User>(
@@ -17,7 +19,8 @@ const userSchema = new Schema<User>(
     email: { type: String, required: true },
     password: { type: String, required: true },
     firstName: { type: String, required: true },
-    lastName: { type: String, required: true }
+    lastName: { type: String, required: true },
+    mobileNumber: { type: String, required: true }
   },
   {
     timestamps: true
