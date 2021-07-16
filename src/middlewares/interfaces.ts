@@ -1,9 +1,9 @@
-import {Request, Response, NextFunction, Errback} from 'express'
+import { Request, Response, NextFunction, Errback } from 'express'
 
 export interface Middleware {
-  middleware(req: Request, res: Response, next: NextFunction): void
+  middleware(req: Request, res: Response, next: NextFunction): void | Promise<void>
 }
 
 export interface ErrorMiddleware {
-  middleware(err: Errback,req: Request, res: Response, next: NextFunction): void
+  middleware(err: Errback, req: Request, res: Response, next: NextFunction): void
 }
