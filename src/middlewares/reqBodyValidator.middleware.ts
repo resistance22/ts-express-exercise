@@ -2,7 +2,7 @@ import Logger from '../logger'
 import { Response, Request, NextFunction } from 'express'
 import { Middleware } from './interfaces'
 import { ObjectSchema } from 'yup'
-import HttpError from '../Errors/HTTPError'
+import { HttpError } from '../Errors'
 
 class ReqBodyValidatorMiddleWare implements Middleware {
   constructor(private Schema: ObjectSchema<any>) {}
@@ -18,7 +18,7 @@ class ReqBodyValidatorMiddleWare implements Middleware {
       for (let i = 0; i < error.inner.length; i++) {
         errors.push(error.inner[i].message)
       }
-      next(new HttpError(422, errors))
+      return next(new HttpError(422, errors))
     }
   }
 }
