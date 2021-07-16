@@ -9,7 +9,7 @@ import DB from './DB'
 const app: Application = express()
 const port = config.port as number
 const host = config.host as string
-const db = new DB()
+const db = DB.getInstance()
 // Reuquest Logger
 applyMiddleware(app, new ReqLoggerMiddleWare())
 
