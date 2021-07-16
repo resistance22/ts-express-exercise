@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction, Errback } from 'express'
 
 export interface Middleware {
-  middleware(req: Request, res: Response, next: NextFunction): void | Promise<void>
+  middleware(req: Request, res: Response, next: NextFunction): void | Promise<void> | NextFunction
 }
 
 export interface ErrorMiddleware {
