@@ -1,6 +1,6 @@
 import { expect } from 'chai'
-import { createUser } from '../../DBServices/User.service'
-import { UserModel } from '../../Models'
+import { createUser } from '../../src/DBServices/User.service'
+import { UserModel } from '../../src/Models'
 import { after } from 'mocha'
 import { dbConnect, deleteAllData, syncAllIndexes, dropDB } from '../TestUtils'
 
