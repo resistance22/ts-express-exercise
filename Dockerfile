@@ -5,16 +5,14 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 
-RUN ["npm", "install"]
+RUN ["npm", "install", "--production"]
 
-COPY . .
-
-RUN ["npm","run","build"]
-
+COPY ./dist/ ./dist/
 
 ENV SERVER_PORT=4000
 ENV SERVER_HOST=0.0.0.0
 ENV FORCE_COLOR=1
+ENV DATABASE_URI='mongodb://172.17.0.2:27017/tsapp'
 
 EXPOSE 4000
 
