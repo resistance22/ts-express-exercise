@@ -12,6 +12,7 @@ export const dbConnect = async () => {
     useFindAndModify: false
   }
   const uri = Server.getUri()
+  if (mongoose.connection.db) return
   await mongoose.connect(uri, mongooseOpts)
 }
 

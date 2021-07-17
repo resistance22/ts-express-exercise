@@ -1,22 +1,13 @@
 import { expect } from 'chai'
 import { createUser } from '../../DBServices/User.service'
 import { UserModel } from '../../Models'
-import { HttpError } from '../../Errors'
 import { after } from 'mocha'
 import { dbConnect, deleteAllData, syncAllIndexes, dropDB } from '../TestUtils'
 
-describe('createUser', () => {
-  before('Open the database connection', async () => {
-    await dbConnect()
-  })
-
+describe('createUser', function () {
   afterEach('sync indexes', async () => {
     await deleteAllData(UserModel)
     await syncAllIndexes(UserModel)
-  })
-
-  after('Delete Database', async () => {
-    await dropDB()
   })
 
   it('Should insert a new User to the database', async () => {
@@ -29,7 +20,13 @@ describe('createUser', () => {
     }
     const user = await createUser(userToInsert)
 
-    expect(user).excludingEvery('password').to.deep.equal(userToInsert)
+    expect(user).to.have.property('_id')
+    expect(user).to.have.property('createdAt')
+    expect(user).to.have.property('updatedAt')
+    expect(user.firstName).to.be.equal('Amin')
+    expect(user.lastName).to.be.equal('Foroutan')
+    expect(user.email).to.be.equal('amin@gmail.com')
+    expect(user.mobileNumber).to.be.equal('+989301112524')
   })
 
   it('Should throw an error when there is a duplicate email', async () => {
