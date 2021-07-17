@@ -31,6 +31,7 @@ describe('POST /register', function () {
       .post('/register')
       .send({})
       .then((res) => {
+        console.log(res)
         expect(res).to.have.status(422)
       })
   })
