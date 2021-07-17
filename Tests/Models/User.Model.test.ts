@@ -1,8 +1,12 @@
 import { expect } from 'chai'
 import { createUser } from '../../src/DBServices/User.service'
+import { deleteAllCollectionsData } from '../TestUtils'
 
 describe('createUser', function () {
-  it('Should insert a new User to the database', async () => {
+  afterEach('should clear database', async function () {
+    await deleteAllCollectionsData()
+  })
+  it('Should insert a new User to the database', async function () {
     const userToInsert = {
       firstName: 'Amin',
       lastName: 'Foroutan',
@@ -21,7 +25,7 @@ describe('createUser', function () {
     expect(user.mobileNumber).to.be.equal('+989301112524')
   })
 
-  it('Should throw an error when there is a duplicate email', async () => {
+  it('Should throw an error when there is a duplicate email', async function () {
     const userToInsert = {
       firstName: 'Amin',
       lastName: 'Foroutan',
@@ -40,7 +44,7 @@ describe('createUser', function () {
     await expect(createUser(duplicateEmail)).to.be.rejected
   })
 
-  it('Should throw an error when there is a duplicate mobileNumber', async () => {
+  it('Should throw an error when there is a duplicate mobileNumber', async function () {
     const userToInsert = {
       firstName: 'Amin',
       lastName: 'Foroutan',

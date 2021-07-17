@@ -3,8 +3,11 @@ import { UserModel } from '../../src/Models'
 import Sinon, { SinonStub } from 'sinon'
 import app from '../../src/app'
 import chai from 'chai'
-
+import { deleteAllCollectionsData } from '../TestUtils'
 describe('POST /register', function () {
+  afterEach('should clear database', async function () {
+    await deleteAllCollectionsData()
+  })
   let stub: SinonStub
   let agent = chai.request
 
@@ -25,7 +28,7 @@ describe('POST /register', function () {
     stub.restore()
   })
 
-  it('Should should not work when data in malformed', () => {
+  it('Should should not work when data in malformed', function () {
     agent(app)
       .post('/register')
       .send({})
@@ -37,7 +40,7 @@ describe('POST /register', function () {
       })
   })
 
-  it('Should detect wrong email format', () => {
+  it('Should detect wrong email format', function () {
     const data = {
       password: '12345678',
       firstName: 'Amin',
@@ -48,7 +51,7 @@ describe('POST /register', function () {
     agent(app)
       .post('/register')
       .send(data)
-      .end((err, res) => {
+      .end(function (err, res) {
         if (!err) {
           expect(res).to.have.status(422)
           expect(res.body).to.be.an('array')
@@ -56,7 +59,7 @@ describe('POST /register', function () {
       })
   })
 
-  it('Should detect wrong email mobileNumber', () => {
+  it('Should detect wrong email mobileNumber', function () {
     const data = {
       password: '12345678',
       firstName: 'Amin',
@@ -67,7 +70,7 @@ describe('POST /register', function () {
     agent(app)
       .post('/register')
       .send(data)
-      .end((err, res) => {
+      .end(function (err, res) {
         if (!err) {
           expect(res).to.have.status(422)
           expect(res.body).to.be.an('array')
@@ -75,7 +78,7 @@ describe('POST /register', function () {
       })
   })
 
-  it('Should detect wrong password shorter than 8 charachters', () => {
+  it('Should detect wrong password shorter than 8 charachters', function () {
     const data = {
       password: '1234567',
       firstName: 'Amin',
@@ -86,7 +89,7 @@ describe('POST /register', function () {
     agent(app)
       .post('/register')
       .send(data)
-      .end((err, res) => {
+      .end(function (err, res) {
         if (!err) {
           expect(res).to.have.status(422)
           expect(res.body).to.be.an('array')
@@ -94,7 +97,7 @@ describe('POST /register', function () {
       })
   })
 
-  it('Should return the right object when the data is ok', () => {
+  it('Should return the right object when the data is ok', function () {
     const userToInsert = {
       firstName: 'Amin',
       lastName: 'Foroutan',

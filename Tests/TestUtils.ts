@@ -3,7 +3,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 
 let Server: MongoMemoryServer
 
-export const dbConnect = async () => {
+export async function dbConnect() {
   Server = await MongoMemoryServer.create()
   const mongooseOpts = {
     useNewUrlParser: true,
@@ -16,27 +16,23 @@ export const dbConnect = async () => {
   await mongoose.connect(uri, mongooseOpts)
 }
 
-export const deleteAllMolelData = async (model: Model<any>) => {
+export async function deleteAllMolelData(model: Model<any>) {
   await model.deleteMany({})
 }
 
-export const syncAllModelIndexes = async (model: Model<any>) => {
+export async function syncAllModelIndexes(model: Model<any>) {
   await model.syncIndexes()
 }
 
-export const dropDB = async () => {
+export async function dropDB() {
   await mongoose.connection.dropDatabase()
   await mongoose.connection.close()
   await Server.stop()
 }
 
-export const deleteAllCollectionsData = async () => {
-  try {
-    Object.keys(mongoose.models).forEach(async (key) => {
-      await mongoose.models[key].deleteMany({})
-      await mongoose.models[key].syncIndexes()
-    })
-  } catch (e) {
-    console.log(e)
-  }
+export async function deleteAllCollectionsData() {
+  Object.keys(mongoose.models).forEach(async function (key) {
+    await mongoose.models[key].deleteMany({})
+    await mongoose.models[key].syncIndexes()
+  })
 }
