@@ -16,4 +16,4 @@ ENV DATABASE_URI='mongodb://172.17.0.2:27017/tsapp'
 
 EXPOSE 4000
 
-RUN ["npm", "start"]
+CMD ["npm", "start"]
