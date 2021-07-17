@@ -4,6 +4,7 @@ import config from './config'
 import logger from './logger'
 import { ReqLoggerMiddleWare, ErrorHandlerMiddleWare } from './middlewares'
 import { applyMiddleware } from './utils'
+import globalRouter from './Controller'
 import DB from './DB'
 
 const app: Application = express()
@@ -16,6 +17,8 @@ applyMiddleware(app, new ReqLoggerMiddleWare())
 app.use(express.json())
 // urlencoded
 app.use(express.urlencoded())
+//setUp Routes
+app.use(globalRouter)
 // Error Handleer
 app.use(ErrorHandlerMiddleWare)
 
