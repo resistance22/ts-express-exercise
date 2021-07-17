@@ -16,11 +16,11 @@ export const dbConnect = async () => {
   await mongoose.connect(uri, mongooseOpts)
 }
 
-export const deleteAllData = async (model: Model<any>) => {
+export const deleteAllMolelData = async (model: Model<any>) => {
   await model.deleteMany({})
 }
 
-export const syncAllIndexes = async (model: Model<any>) => {
+export const syncAllModelIndexes = async (model: Model<any>) => {
   await model.syncIndexes()
 }
 
@@ -28,4 +28,15 @@ export const dropDB = async () => {
   await mongoose.connection.dropDatabase()
   await mongoose.connection.close()
   await Server.stop()
+}
+
+export const deleteAllCollectionsData = async () => {
+  try {
+    Object.keys(mongoose.models).forEach(async (key) => {
+      await mongoose.models[key].deleteMany({})
+      await mongoose.models[key].syncIndexes()
+    })
+  } catch (e) {
+    console.log(e)
+  }
 }
