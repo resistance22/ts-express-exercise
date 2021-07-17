@@ -16,7 +16,7 @@ applyMiddleware(app, new ReqLoggerMiddleWare())
 // json body parser
 app.use(express.json())
 // urlencoded
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
 //setUp Routes
 app.use(globalRouter)
 // Error Handleer
