@@ -5,9 +5,6 @@ import app from '../../src/app'
 import chai from 'chai'
 import { deleteAllCollectionsData } from '../TestUtils'
 describe('POST /register', function () {
-  afterEach('should clear database', async function () {
-    await deleteAllCollectionsData()
-  })
   let stub: SinonStub
   let agent = chai.request
 
@@ -26,6 +23,10 @@ describe('POST /register', function () {
 
   after('restore the stub', async () => {
     stub.restore()
+  })
+
+  afterEach('should clear database', async function () {
+    await deleteAllCollectionsData()
   })
 
   it('Should should not work when data in malformed', function () {
