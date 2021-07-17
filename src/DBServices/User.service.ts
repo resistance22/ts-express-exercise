@@ -23,6 +23,7 @@ export async function createUser(userObject: UserObject) {
       updatedAt: savedUser.updatedAt.toISOString()
     }
   } catch (e) {
+    Logger.error(e)
     if (e.code === 11000) {
       throw new HttpError(409, ['duplicate value found in you data!'])
     } else {
