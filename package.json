@@ -7,7 +7,7 @@
     "dev": "nodemon --ignore src/Tests/**/*.test.ts src/app.ts",
     "build": "rm -rf ./dist && tsc -p .",
     "start": "node ./dist/app.js",
-    "test": "NODE_ENV=test mocha --exit -r ts-node/register --file 'src/Tests/mocha-setup.ts' src/Tests/**/*.test.ts",
+    "test": "NODE_ENV=test mocha --exit -r ts-node/register --file 'Tests/mocha-setup.ts' Tests/**/*.test.ts",
     "coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text npm run test"
   },
   "repository": {
