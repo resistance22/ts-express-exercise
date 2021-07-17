@@ -9,7 +9,6 @@ class ReqBodyValidatorMiddleWare implements Middleware {
 
   middleware = async (req: Request, res: Response, next: NextFunction) => {
     const { body } = req
-    console.log('test', body)
     try {
       await this.Schema.validate(body, { abortEarly: false })
       return next()
