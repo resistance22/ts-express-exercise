@@ -15,7 +15,7 @@ class DB {
     return this.instance
   }
   setUp() {
-    mongoose.connect(config.dbURI as string, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
+    mongoose.connect(config.dbURI as string, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false }, (err) => {
       err && Logger.error(err)
     })
     this.db.once('open', () => {
