@@ -14,10 +14,13 @@ export async function createUser(userObject: UserObject) {
   try {
     const savedUser = await UserModel.create(userObject)
     return {
+      _id: savedUser.id,
       firstName: savedUser.firstName,
       lastName: savedUser.lastName,
       email: savedUser.email,
-      mobileNumber: savedUser.mobileNumber
+      mobileNumber: savedUser.mobileNumber,
+      createdAt: savedUser.createdAt.toISOString(),
+      updatedAt: savedUser.updatedAt.toISOString()
     }
   } catch (e) {
     if (e.code === 11000) {
