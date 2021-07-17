@@ -1,15 +1,7 @@
 import { expect } from 'chai'
 import { createUser } from '../../src/DBServices/User.service'
-import { UserModel } from '../../src/Models'
-import { after } from 'mocha'
-import { dbConnect, deleteAllData, syncAllIndexes, dropDB } from '../TestUtils'
 
 describe('createUser', function () {
-  afterEach('sync indexes', async () => {
-    await deleteAllData(UserModel)
-    await syncAllIndexes(UserModel)
-  })
-
   it('Should insert a new User to the database', async () => {
     const userToInsert = {
       firstName: 'Amin',
