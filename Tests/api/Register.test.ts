@@ -93,4 +93,28 @@ describe('POST /register', function () {
         }
       })
   })
+
+  it('Should return the right object when the data is ok', () => {
+    const userToInsert = {
+      firstName: 'Amin',
+      lastName: 'Foroutan',
+      email: 'amin@gmail.com',
+      mobileNumber: '+989301112524',
+      password: '12345678'
+    }
+    agent(app)
+      .post('/register')
+      .send(userToInsert)
+      .end((err, res) => {
+        if (!err) {
+          expect(res.body).to.have.property('_id')
+          expect(res.body).to.have.property('createdAt')
+          expect(res.body).to.have.property('updatedAt')
+          expect(res.body.firstName).to.be.equal('Amin')
+          expect(res.body.lastName).to.be.equal('Foroutan')
+          expect(res.body.email).to.be.equal('amin@gmail.com')
+          expect(res.body.mobileNumber).to.be.equal('+989301112524')
+        }
+      })
+  })
 })
