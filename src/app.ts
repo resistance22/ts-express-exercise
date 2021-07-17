@@ -23,3 +23,5 @@ app.listen(port, host, () => {
   logger.info(`Server is Running on Port: [${black.bgGreen(port)}] and Host: [${black.bgYellow('http://' + host)}]`)
   db.setUp()
 })
+
+export default app
