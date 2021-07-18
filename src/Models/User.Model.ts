@@ -1,7 +1,7 @@
 import { Schema, model, HookNextFunction, Document } from 'mongoose'
 import bcrypt from 'bcrypt'
 
-export interface User extends Document {
+export interface IUser extends Document {
   name: string
   email: string
   password: string
@@ -12,7 +12,7 @@ export interface User extends Document {
   updatedAt: Date
 }
 
-const userSchema = new Schema<User>(
+const userSchema = new Schema<IUser>(
   {
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
@@ -25,8 +25,8 @@ const userSchema = new Schema<User>(
   }
 )
 
-userSchema.pre('save', async function (next: HookNextFunction) {
-  const UserDocument: User = this
+userSchema.pre<IUser>('save', async function (next: HookNextFunction) {
+  const UserDocument: IUser = this
   if (UserDocument.isModified('password')) {
     const hash = await bcrypt.hash(UserDocument.password, 10)
     UserDocument.password = hash
@@ -35,10 +35,10 @@ userSchema.pre('save', async function (next: HookNextFunction) {
 })
 
 userSchema.methods.comparePassword = async function (plainPassword: string) {
-  const UserDocument: User = this
+  const UserDocument: IUser = this
   return bcrypt.compare(plainPassword, UserDocument.password)
 }
 
-const UserModel = model<User>('User', userSchema, 'users')
+const UserModel = model<IUser>('User', userSchema, 'users')
 
 export default UserModel
