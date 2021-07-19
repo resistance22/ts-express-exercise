@@ -3,6 +3,6 @@ import GlobalRouter from './GlobalRouter'
 
 const registerRouter = new RegisterController()
 
-GlobalRouter.addRoute(registerRouter)
+GlobalRouter.addRoute('/register', registerRouter)
 
 export default GlobalRouter
