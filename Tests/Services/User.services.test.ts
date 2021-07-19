@@ -1,6 +1,8 @@
 import { expect } from 'chai'
 import { createUser, findUserByEmailOrMobile, authorizeUser } from '../../src/DBServices/User.service'
 import { UserModel } from '../../src/Models'
+import config from '../../src/config'
+import jwt from 'jsonwebtoken'
 
 // createUser()
 describe('createUser()', function () {
@@ -144,7 +146,7 @@ describe('findUserByEmailOrMobile()', async function () {
 
 // authorizeUser()
 describe('authorizeUser()', async function () {
-  before('add some users to database', async function () {
+  beforeEach('add some users to database', function () {
     const usersToInsert = [
       {
         firstName: 'Amin',
@@ -165,17 +167,47 @@ describe('authorizeUser()', async function () {
         lastName: 'Foroutan',
         email: 'amin2@gmail.com',
         mobileNumber: '+989301112526',
-        password: '12345678'
+        password: '123456789'
       }
     ]
-    await UserModel.insertMany(usersToInsert)
+    return UserModel.create(usersToInsert)
   })
 
-  it('should throw an error with wrong crudentials.', async function () {
+  it('should throw an error with wrong email', async function () {
     const userToAuthorize = {
       crudential: 'amin3@gmail.com',
       password: '12345678'
     }
     await expect(authorizeUser(userToAuthorize)).to.be.rejected
+  })
+
+  it('should throw an error with wrong phoneNumber', async function () {
+    const userToAuthorize = {
+      crudential: '+989301112527',
+      password: '12345678'
+    }
+    await expect(authorizeUser(userToAuthorize)).to.be.rejected
+  })
+
+  it('should throw an error with wrong password', async function () {
+    const userToAuthorize = {
+      crudential: '+989301112524',
+      password: '123456789'
+    }
+    await expect(authorizeUser(userToAuthorize)).to.be.rejected
+  })
+
+  it('should generate the right token with the right crudentials', async function () {
+    const userToAuthorize = {
+      crudential: 'amin2@gmail.com',
+      password: '123456789'
+    }
+    const token = await authorizeUser(userToAuthorize)
+    expect(token).to.have.property('accessToken')
+    const decoded = jwt.verify(token.accessToken, config.tokenSecret as string) as any
+    expect(decoded.firstName).to.be.equal('Amin')
+    expect(decoded.lastName).to.be.equal('Foroutan')
+    expect(decoded.mobileNumber).to.be.equal('+989301112526')
+    expect(decoded.email).to.be.equal('amin2@gmail.com')
   })
 })
