@@ -1,22 +1,22 @@
-import { Controller } from './interfaces'
+import { IController } from './interfaces'
 import { UserDTO } from '../DTO'
 import { ReqBodyValidatorMiddleWare } from '../middlewares'
 import { createUser } from '../DBServices/User.service'
 import { omit } from '../utils'
 
-class RegisterController extends Controller {
+class RegisterController extends IController {
   constructor() {
     super('/register')
   }
   configure = () => {
     const ReqValidator = new ReqBodyValidatorMiddleWare(UserDTO)
-    this.Router.post(this.endpoint, ReqValidator.middleware, async (req, res) => {
+    this.router.post(this.endpoint, ReqValidator.middleware, async (req, res) => {
       const { body } = req
       const insertedUser = await createUser(body)
       const sanitizedVersion = omit(insertedUser.toObject(), '__v', 'password')
       res.json(sanitizedVersion)
     })
-    return this.Router
+    return this.router
   }
 }
 
