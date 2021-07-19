@@ -9,6 +9,7 @@ export interface IUser extends Document {
   mobileNumber: string
   createdAt: Date
   updatedAt: Date
+  comparePassword(plainPassword: string): Promise<boolean>
 }
 
 const userSchema = new Schema<IUser>(
@@ -33,9 +34,9 @@ userSchema.pre<IUser>('save', async function (next: HookNextFunction) {
   return next()
 })
 
-userSchema.methods.comparePassword = async function (plainPassword: string) {
+userSchema.methods.comparePassword = async function (plainPassword: string): Promise<boolean> {
   const UserDocument: IUser = this
-  return bcrypt.compare(plainPassword, UserDocument.password)
+  return await bcrypt.compare(plainPassword, UserDocument.password)
 }
 
 const UserModel = model<IUser>('User', userSchema, 'users')
