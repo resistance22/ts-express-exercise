@@ -1,35 +1,37 @@
 import { expect } from 'chai'
 import { UserModel } from '../../src/Models'
-import Sinon, { SinonStub } from 'sinon'
+import Sinon, { assert, SinonStub } from 'sinon'
 import app from '../../src/app'
 import chai from 'chai'
 import { deleteAllCollectionsData } from '../TestUtils'
-import servicesObject from '../../src/DBServices/User.service'
+import * as servicesObject from '../../src/DBServices/User.service'
 
 describe('POST /register', function () {
   let stub: SinonStub
   let agent = chai.request
 
-  before('Create Stub', async () => {
+  before('Create Stub', async function () {
     const fakeUser = new UserModel({
       firstName: 'Amin',
       lastName: 'Foroutan',
       email: 'amin@gmail.com',
       mobileNumber: '+989301112524',
-      password: 'abcdefghijkl'
+      password: 'abcdefghijkl',
+      createdAt: new Date(),
+      updatedAt: new Date()
     })
     stub = Sinon.stub(servicesObject, 'createUser').resolves(fakeUser)
   })
 
-  after('restore the stub', async () => {
+  after('restore the stub', async function () {
     stub.restore()
   })
 
-  afterEach('should clear database', async function () {
+  afterEach('Should clear database', async function () {
     await deleteAllCollectionsData()
   })
 
-  it('Should should not work when data in malformed', function () {
+  it('Should not work when data in malformed', function (done) {
     agent(app)
       .post('/register')
       .send({})
@@ -37,11 +39,12 @@ describe('POST /register', function () {
         if (!err) {
           expect(res).to.have.status(422)
           expect(res.body).to.be.an('array')
+          done()
         }
       })
   })
 
-  it('Should detect wrong email format', function () {
+  it('Should detect wrong email format', function (done) {
     const data = {
       password: '12345678',
       firstName: 'Amin',
@@ -56,11 +59,12 @@ describe('POST /register', function () {
         if (!err) {
           expect(res).to.have.status(422)
           expect(res.body).to.be.an('array')
+          done()
         }
       })
   })
 
-  it('Should detect wrong email mobileNumber', function () {
+  it('Should detect wrong email mobileNumber', function (done) {
     const data = {
       password: '12345678',
       firstName: 'Amin',
@@ -75,11 +79,12 @@ describe('POST /register', function () {
         if (!err) {
           expect(res).to.have.status(422)
           expect(res.body).to.be.an('array')
+          done()
         }
       })
   })
 
-  it('Should detect wrong password shorter than 8 charachters', function () {
+  it('Should detect wrong password shorter than 8 charachters', function (done) {
     const data = {
       password: '1234567',
       firstName: 'Amin',
@@ -94,11 +99,12 @@ describe('POST /register', function () {
         if (!err) {
           expect(res).to.have.status(422)
           expect(res.body).to.be.an('array')
+          done()
         }
       })
   })
 
-  it('Should return the right object when the data is ok', function () {
+  it('Should return the right object when the data is ok', function (done) {
     const userToInsert = {
       firstName: 'Amin',
       lastName: 'Foroutan',
@@ -109,12 +115,20 @@ describe('POST /register', function () {
     agent(app)
       .post('/register')
       .send(userToInsert)
-      .end((err, res) => {
-        if (!err) {
-          console.log(res)
-        } else {
-          console.log(err)
-        }
+      .end(function (err, res) {
+        expect(err).to.be.null
+        expect(res.body).to.have.property('_id')
+        expect(res.body).to.have.property('createdAt')
+        expect(res.body).to.have.property('updatedAt')
+        expect(res.body).to.not.have.property('password')
+        expect(res.body).to.not.have.property('__v')
+        expect(res.body.firstName).to.be.equal('Amin')
+        expect(res.body.lastName).to.be.equal('Foroutan')
+        expect(res.body.email).to.be.equal('amin@gmail.com')
+        expect(res.body.mobileNumber).to.be.equal('+989301112524')
+        Sinon.assert.calledWith(stub, userToInsert)
+        Sinon.assert.calledOnce(stub)
+        done()
       })
   })
 })
