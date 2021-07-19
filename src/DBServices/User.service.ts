@@ -39,3 +39,8 @@ export const findUserByEmailOrMobile = async (value: string) => {
   const result = await UserModel.findOne(query)
   return result
 }
+
+export default {
+  createUser: createUser,
+  findUserByEmailOrMobile: findUserByEmailOrMobile
+}
