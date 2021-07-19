@@ -9,9 +9,9 @@ class GlobalRouter {
     return this.router
   }
 
-  static addRoute(Controller: IController) {
+  static addRoute(endpoint: string, Controller: IController) {
     const newRoute = Controller.configure()
-    this.router.use('/', newRoute)
+    this.router.use(endpoint, newRoute)
   }
 }
 
