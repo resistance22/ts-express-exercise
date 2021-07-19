@@ -141,3 +141,41 @@ describe('findUserByEmailOrMobile()', async function () {
     expect(user).to.be.null
   })
 })
+
+// authorizeUser()
+describe('authorizeUser()', async function () {
+  before('add some users to database', async function () {
+    const usersToInsert = [
+      {
+        firstName: 'Amin',
+        lastName: 'Foroutan',
+        email: 'amin@gmail.com',
+        mobileNumber: '+989301112524',
+        password: '12345678'
+      },
+      {
+        firstName: 'Amin',
+        lastName: 'Foroutan',
+        email: 'amin1@gmail.com',
+        mobileNumber: '+989301112525',
+        password: '12345678'
+      },
+      {
+        firstName: 'Amin',
+        lastName: 'Foroutan',
+        email: 'amin2@gmail.com',
+        mobileNumber: '+989301112526',
+        password: '12345678'
+      }
+    ]
+    await UserModel.insertMany(usersToInsert)
+  })
+
+  it('should throw an error with wrong crudentials.', async function () {
+    const userToAuthorize = {
+      crudential: 'amin3@gmail.com',
+      password: '12345678'
+    }
+    await expect(authorizeUser(userToAuthorize)).to.be.rejected
+  })
+})
