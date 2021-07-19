@@ -2,7 +2,6 @@ import { Schema, model, HookNextFunction, Document } from 'mongoose'
 import bcrypt from 'bcrypt'
 
 export interface IUser extends Document {
-  name: string
   email: string
   password: string
   firstName: string
@@ -26,7 +25,7 @@ const userSchema = new Schema<IUser>(
 )
 
 userSchema.pre<IUser>('save', async function (next: HookNextFunction) {
-  const UserDocument: IUser = this
+  const UserDocument = this
   if (UserDocument.isModified('password')) {
     const hash = await bcrypt.hash(UserDocument.password, 10)
     UserDocument.password = hash
