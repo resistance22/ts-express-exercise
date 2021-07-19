@@ -1,8 +1,9 @@
 import express, { Router } from 'express'
-export abstract class Controller {
-  protected Router: Router
+
+export abstract class IController {
+  protected router: Router
   constructor(protected endpoint: string) {
-    this.Router = express.Router()
+    this.router = express.Router()
   }
   abstract configure(): Router
 }
