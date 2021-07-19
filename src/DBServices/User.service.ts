@@ -10,7 +10,7 @@ export interface UserObject {
   password: string
 }
 
-export async function createUser(userObject: UserObject) {
+export const createUser = async (userObject: UserObject) => {
   try {
     const savedUser = await UserModel.create(userObject)
     return savedUser
@@ -28,9 +28,4 @@ export const findUserByEmailOrMobile = async (value: string) => {
   const query = { $or: [{ email: value }, { mobileNumber: value }] }
   const result = await UserModel.findOne(query)
   return result
-}
-
-export default {
-  createUser: createUser,
-  findUserByEmailOrMobile: findUserByEmailOrMobile
 }
