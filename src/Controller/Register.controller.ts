@@ -5,12 +5,9 @@ import { createUser } from '../DBServices/User.service'
 import { omit } from '../utils'
 
 class RegisterController extends IController {
-  constructor() {
-    super('/register')
-  }
   configure = () => {
     const ReqValidator = new ReqBodyValidatorMiddleWare(UserDTO)
-    this.router.post(this.endpoint, ReqValidator.middleware, async (req, res) => {
+    this.router.post('/', ReqValidator.middleware, async (req, res) => {
       const { body } = req
       const insertedUser = await createUser(body)
       const sanitizedVersion = omit(insertedUser.toObject(), '__v', 'password')
