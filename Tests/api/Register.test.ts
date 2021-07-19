@@ -27,10 +27,6 @@ describe('POST /register', function () {
     stub.restore()
   })
 
-  afterEach('Should clear database', async function () {
-    await deleteAllCollectionsData()
-  })
-
   it('Should not work when data in malformed', function (done) {
     agent(app)
       .post('/register')

@@ -1,13 +1,9 @@
 import { expect } from 'chai'
-import { createUser, findUserByEmailOrMobile } from '../../src/DBServices/User.service'
-import { deleteAllCollectionsData } from '../TestUtils'
+import { createUser, findUserByEmailOrMobile, authorizeUser } from '../../src/DBServices/User.service'
 import { UserModel } from '../../src/Models'
 
 // createUser()
 describe('createUser()', function () {
-  afterEach('should clear database', async function () {
-    await deleteAllCollectionsData()
-  })
   it('Should insert a new User to the database', async function () {
     const userToInsert = {
       firstName: 'Amin',

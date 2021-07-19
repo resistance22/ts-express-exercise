@@ -7,10 +7,14 @@ chai.use(chaiHttp)
 chai.use(chaiExclude)
 chai.use(chaiAsPromised)
 
-before('Open DB connection', async function () {
-  await dbConnect()
+before('Open DB connection', function () {
+  return dbConnect()
 })
 
-after('Close the DB', async function () {
-  await dropDB()
+after('Close the DB', function () {
+  return dropDB()
+})
+
+afterEach('should clear database', function () {
+  return deleteAllCollectionsData()
 })
