@@ -11,7 +11,7 @@ interface Omit {
   }
 }
 
-const omit: Omit = (obj, ...keys) => {
+export const omit: Omit = (obj, ...keys) => {
   const ret = {} as {
     [K in keyof typeof obj]: typeof obj[K]
   }
