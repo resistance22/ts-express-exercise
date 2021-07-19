@@ -1,8 +1,8 @@
 import RegisterController from './Register.controller'
 import GlobalRouter from './GlobalRouter'
 
-const registerRouter = new RegisterController()
+const registerController = new RegisterController()
 
-GlobalRouter.addRoute('/register', registerRouter)
+GlobalRouter.addRoute('/register', registerController)
 
 export default GlobalRouter
