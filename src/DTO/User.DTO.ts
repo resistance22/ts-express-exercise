@@ -1,14 +1,16 @@
-import * as yup from 'yup'
+import Joi from 'joi'
 
-const UserDTO = yup.object().shape({
-  firstName: yup.string().required(),
-  lastName: yup.string().required(),
-  email: yup.string().required().email(),
-  mobileNumber: yup
-    .string()
+const UserDTO = Joi.object({
+  firstName: Joi.string().required(),
+  lastName: Joi.string().required(),
+  email: Joi.string().required().email(),
+  mobileNumber: Joi.string()
     .required()
-    .matches(/^(\+\d{1,3}[- ]?)?\d{10}$/, 'Invalid Mobile Number'),
-  password: yup.string().required().min(8)
+    .pattern(/^(\+\d{1,3}[- ]?)?\d{10}$/)
+    .messages({
+      'string.pattern.base': 'Invalid Mobile Number!'
+    }),
+  password: Joi.string().required().min(8)
 })
 
 export default UserDTO
