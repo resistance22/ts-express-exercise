@@ -35,8 +35,8 @@ userSchema.pre<IUser>('save', async function (next: HookNextFunction) {
 })
 
 userSchema.methods.comparePassword = async function (plainPassword: string): Promise<boolean> {
-  const UserDocument: IUser = this
-  return await bcrypt.compare(plainPassword, UserDocument.password)
+  const user = this
+  return await bcrypt.compare(plainPassword, user.password)
 }
 
 const UserModel = model<IUser>('User', userSchema, 'users')
