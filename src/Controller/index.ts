@@ -1,9 +1,8 @@
-import { Router } from 'express'
 import RegisterController from './Register.controller'
+import GlobalRouter from './GlobalRouter'
 
-const globalRouter = Router()
-const registerRouter = new RegisterController().configure()
+const registerRouter = new RegisterController()
 
-globalRouter.use('/', registerRouter)
+GlobalRouter.addRoute(registerRouter)
 
-export default globalRouter
+export default GlobalRouter
