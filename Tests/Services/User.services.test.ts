@@ -3,7 +3,8 @@ import { createUser, findUserByEmailOrMobile } from '../../src/DBServices/User.s
 import { deleteAllCollectionsData } from '../TestUtils'
 import { UserModel } from '../../src/Models'
 
-describe('createUser', function () {
+// createUser()
+describe('createUser()', function () {
   afterEach('should clear database', async function () {
     await deleteAllCollectionsData()
   })
@@ -63,9 +64,29 @@ describe('createUser', function () {
     await createUser(userToInsert)
     await expect(createUser(duplicateEmail)).to.be.rejected
   })
+
+  it('should hash the password', async function () {
+    const userToInsert = {
+      firstName: 'Amin',
+      lastName: 'Foroutan',
+      email: 'amin@gmail.com',
+      mobileNumber: '+989301112524',
+      password: '12345678'
+    }
+    const user = await createUser(userToInsert)
+    expect(user).to.have.property('_id')
+    expect(user).to.have.property('createdAt')
+    expect(user).to.have.property('updatedAt')
+    expect(user.firstName).to.be.equal('Amin')
+    expect(user.lastName).to.be.equal('Foroutan')
+    expect(user.email).to.be.equal('amin@gmail.com')
+    expect(user.mobileNumber).to.be.equal('+989301112524')
+    expect(user.password).to.not.be.equal('12345678')
+  })
 })
 
-describe('findUserByEmailOrMobile', async function () {
+// findUserByEmailOrMobile()
+describe('findUserByEmailOrMobile()', async function () {
   before('add some users to database', async function () {
     const usersToInsert = [
       {
