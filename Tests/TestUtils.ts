@@ -1,6 +1,6 @@
 import mongoose, { Model } from 'mongoose'
 import { MongoMemoryServer } from 'mongodb-memory-server'
-
+import { Done } from 'mocha'
 let Server: MongoMemoryServer
 
 export async function dbConnect() {
@@ -30,9 +30,12 @@ export async function dropDB() {
   await Server.stop()
 }
 
-export async function deleteAllCollectionsData() {
-  Object.keys(mongoose.models).forEach(async function (key) {
-    await mongoose.models[key].deleteMany({})
-    await mongoose.models[key].syncIndexes()
+export function deleteAllCollectionsData(done: Done) {
+  Object.keys(mongoose.models).forEach(function (key) {
+    mongoose.models[key].deleteMany({}).then(() => {
+      mongoose.models[key].syncIndexes().then(() => {
+        done()
+      })
+    })
   })
 }
