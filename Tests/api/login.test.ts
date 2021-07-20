@@ -91,22 +91,6 @@ describe('POST /login', function () {
       })
   })
 
-  it('Should detect malformed phoneNumber', function (done) {
-    agent(app)
-      .post('/login')
-      .send({
-        crudential: '94384898',
-        password: 'amoidsfs'
-      })
-      .end((err, res) => {
-        if (!err) {
-          expect(res).to.have.status(422)
-          expect(res.body).to.be.an('array')
-          done()
-        }
-      })
-  })
-
   it('Should return right token when provided right crudentials', function (done) {
     const body = {
       crudential: 'amin@gmail.com',
@@ -119,6 +103,11 @@ describe('POST /login', function () {
         if (!err) {
           expect(res).to.have.status(200)
           expect(res.body).to.have.property('accessToken')
+          const decoded = jwt.verify(res.body.accessToken, config.tokenSecret as string) as any
+          expect(decoded.firstName).to.be.equal('Amin')
+          expect(decoded.lastName).to.be.equal('Foroutan')
+          expect(decoded.mobileNumber).to.be.equal('+989301112524')
+          expect(decoded.email).to.be.equal('amin@gmail.com')
           done()
         }
       })
