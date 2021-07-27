@@ -37,6 +37,8 @@ export const generateAccessToken = (obj: object) => {
   return jwt.sign(obj, config.tokenSecret as string, { expiresIn: '1h' })
 }
 
+export const setRefreshToken = (email: string, token: string) => {}
+
 export const authorizeUser = async (crudentials: { crudential: string; password: string }) => {
   const { crudential, password } = crudentials
   const user = await findUserByEmailOrMobile(crudential)
