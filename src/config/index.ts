@@ -7,5 +7,5 @@ export default {
   tokenSecret: process.env.TOKEN_SECRET || 'verysecretkey',
   dbURI: env === 'test' ? process.env.TEST_DATABASE_URI : process.env.DATABASE_URI,
   redisURI: process.env.REDIS_URI,
-  redisDB: env === 'test' ? process.env.REDIS_DB : process.env.REDIS_TEST_DB
+  redisDB: env === 'test' ? process.env.REDIS_TEST_DB : process.env.REDIS_DB
 }

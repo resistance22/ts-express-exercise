@@ -5,7 +5,7 @@ import logger from './logger'
 import { ReqLoggerMiddleWare, ErrorHandlerMiddleWare } from './middlewares'
 import { applyMiddleware } from './utils'
 import GlobalRouter from './Controller/'
-import DB from './DB'
+import { DB } from './DB'
 
 const app: Application = express()
 const port = config.port as number
