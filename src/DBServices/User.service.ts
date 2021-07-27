@@ -33,8 +33,8 @@ export const findUserByEmailOrMobile = async (value: string) => {
   return result
 }
 
-export const generateToken = (obj: object) => {
-  return jwt.sign(obj, config.tokenSecret as string)
+export const generateAccessToken = (obj: object) => {
+  return jwt.sign(obj, config.tokenSecret as string, { expiresIn: '1h' })
 }
 
 export const authorizeUser = async (crudentials: { crudential: string; password: string }) => {
@@ -52,6 +52,6 @@ export const authorizeUser = async (crudentials: { crudential: string; password:
   const userObj = user.toObject()
 
   return {
-    accessToken: generateToken(omit(userObj, 'password', '__v'))
+    accessToken: generateAccessToken(omit(userObj, 'password', '__v'))
   }
 }
