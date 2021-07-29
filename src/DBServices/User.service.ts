@@ -43,8 +43,9 @@ export const generateRefreshToken = (obj: object) => {
 
 export const setRefreshToken = async (email: string, token: string) => {
   try {
-    await RedisClient.set(email, token)
+    await RedisClient.set(String(email), token)
   } catch (e) {
+    Logger.log(e)
     throw new HttpError(500, ['something went wrong!'])
   }
 }
@@ -62,7 +63,10 @@ export const authorizeUser = async (crudentials: { crudential: string; password:
     throw new HttpError(401, ['wrong crudential!'])
   }
   const userObj = omit(user.toObject(), 'password', '__v')
+  const refreshToken = generateRefreshToken(userObj)
+  await setRefreshToken(userObj._id, refreshToken)
   return {
-    accessToken: generateAccessToken(userObj)
+    accessToken: generateAccessToken(userObj),
+    refreshToken
   }
 }
