@@ -4,6 +4,7 @@ import Logger from '../logger'
 import jwt from 'jsonwebtoken'
 import config from '../config'
 import { omit } from '../utils'
+import { RedisClient } from '../DB'
 
 export interface UserObject {
   firstName: string
@@ -36,8 +37,17 @@ export const findUserByEmailOrMobile = async (value: string) => {
 export const generateAccessToken = (obj: object) => {
   return jwt.sign(obj, config.tokenSecret as string, { expiresIn: '1h' })
 }
+export const generateRefreshToken = (obj: object) => {
+  return jwt.sign(obj, config.tokenSecret as string)
+}
 
-export const setRefreshToken = (email: string, token: string) => {}
+export const setRefreshToken = async (email: string, token: string) => {
+  try {
+    await RedisClient.set(email, token)
+  } catch (e) {
+    throw new HttpError(500, ['something went wrong!'])
+  }
+}
 
 export const authorizeUser = async (crudentials: { crudential: string; password: string }) => {
   const { crudential, password } = crudentials
@@ -51,9 +61,8 @@ export const authorizeUser = async (crudentials: { crudential: string; password:
   if (!passwordMatch) {
     throw new HttpError(401, ['wrong crudential!'])
   }
-  const userObj = user.toObject()
-
+  const userObj = omit(user.toObject(), 'password', '__v')
   return {
-    accessToken: generateAccessToken(omit(userObj, 'password', '__v'))
+    accessToken: generateAccessToken(userObj)
   }
 }
