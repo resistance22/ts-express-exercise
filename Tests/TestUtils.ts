@@ -1,6 +1,8 @@
 import mongoose, { Model } from 'mongoose'
 import { Done } from 'mocha'
+import { RedisClient } from '../src/DB'
 import config from '../src/config'
+import { func } from 'joi'
 
 export async function dbConnect() {
   const mongooseOpts = {
@@ -33,5 +35,11 @@ export function deleteAllCollectionsData(done: Done) {
         done()
       })
     })
+  })
+}
+
+export function deleteRedisData(done: Done) {
+  RedisClient.flushall().then(() => {
+    done()
   })
 }
