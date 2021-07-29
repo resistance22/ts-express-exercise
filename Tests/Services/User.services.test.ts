@@ -1,8 +1,9 @@
 import { expect } from 'chai'
-import { createUser, findUserByEmailOrMobile, authorizeUser } from '../../src/DBServices/User.service'
+import { createUser, findUserByEmailOrMobile, authorizeUser, setRefreshToken } from '../../src/DBServices/User.service'
 import { UserModel } from '../../src/Models'
 import config from '../../src/config'
 import jwt from 'jsonwebtoken'
+import { RedisClient } from '../../src/DB/'
 
 // createUser()
 describe('createUser()', function () {
@@ -209,5 +210,14 @@ describe('authorizeUser()', async function () {
     expect(decoded.lastName).to.be.equal('Foroutan')
     expect(decoded.mobileNumber).to.be.equal('+989301112526')
     expect(decoded.email).to.be.equal('amin2@gmail.com')
+  })
+})
+
+// setRefreshToken()
+describe('setRefreshToken()', async function () {
+  it('should enter the refresh token to the redis database.', async function () {
+    await setRefreshToken('aminf@gmail.com', 'jfldsjflkdaflkdsjdlfsfjdslfkjslkfjds')
+    const token = await RedisClient.get('aminf@gmail.com')
+    expect(token).to.be.equal('jfldsjflkdaflkdsjdlfsfjdslfkjslkfjds')
   })
 })
