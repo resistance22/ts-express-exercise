@@ -4,7 +4,7 @@ const LoginDTO = Joi.object({
   crudential: Joi.alternatives()
     .try(
       Joi.string()
-        .pattern(/^(\+\d{1,3}[- ]?)?\d{10}$/)
+        .pattern(/^(\+98|0)9\d{9}$/)
         .messages({
           'string.pattern.base': 'Invalid Mobile Number!'
         }),

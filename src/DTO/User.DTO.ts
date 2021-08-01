@@ -6,7 +6,7 @@ const UserDTO = Joi.object({
   email: Joi.string().required().email(),
   mobileNumber: Joi.string()
     .required()
-    .pattern(/^(\+\d{1,3}[- ]?)?\d{10}$/)
+    .pattern(/^(\+98|0)9\d{9}$/)
     .messages({
       'string.pattern.base': 'Invalid Mobile Number!'
     }),
