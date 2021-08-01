@@ -7,8 +7,8 @@ const registerController = new RegisterController()
 const loginController = new LoginController()
 const tokenController = new TokenController()
 
-GlobalRouter.addRoute('/register', registerController)
-GlobalRouter.addRoute('/login', loginController)
-GlobalRouter.addRoute('/token', tokenController)
+GlobalRouter.addRoute('/api/register', registerController)
+GlobalRouter.addRoute('/api/login', loginController)
+GlobalRouter.addRoute('/api/token', tokenController)
 
 export default GlobalRouter
