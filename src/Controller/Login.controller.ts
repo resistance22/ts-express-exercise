@@ -7,10 +7,14 @@ import { omit } from '../utils'
 class LoginController extends IController {
   configure = () => {
     const ReqValidator = new ReqBodyValidatorMiddleWare(LoginDTO)
-    this.router.post('/', ReqValidator.middleware, async (req, res) => {
+    this.router.post('/', ReqValidator.middleware, async (req, res, next) => {
       const { body } = req
-      const result = await authorizeUser(body)
-      res.json(result)
+      try {
+        const result = await authorizeUser(body)
+        res.json(result)
+      } catch (e) {
+        next(e)
+      }
     })
     return this.router
   }

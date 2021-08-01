@@ -7,11 +7,15 @@ import { omit } from '../utils'
 class RegisterController extends IController {
   configure = () => {
     const ReqValidator = new ReqBodyValidatorMiddleWare(UserDTO)
-    this.router.post('/', ReqValidator.middleware, async (req, res) => {
+    this.router.post('/', ReqValidator.middleware, async (req, res, next) => {
       const { body } = req
-      const insertedUser = await createUser(body)
-      const sanitizedVersion = omit(insertedUser.toObject(), '__v', 'password')
-      res.json(sanitizedVersion)
+      try {
+        const insertedUser = await createUser(body)
+        const sanitizedVersion = omit(insertedUser.toObject(), '__v', 'password')
+        res.json(sanitizedVersion)
+      } catch (e) {
+        next(e)
+      }
     })
     return this.router
   }
