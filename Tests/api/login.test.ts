@@ -18,9 +18,12 @@ describe('POST /login', function () {
       mobileNumber: '+989301112524',
       email: 'amin@gmail.com'
     }
-    const fakeToken = jwt.sign(user, config.tokenSecret as string)
+    const fakeAccessToken = jwt.sign(user, config.tokenSecret as string)
+    const fakeRefreshToken = jwt.sign(user, config.refreshTokenSecret as string)
+
     const fakeResult = {
-      accessToken: fakeToken
+      accessToken: fakeAccessToken,
+      refreshToken: fakeRefreshToken
     }
     stub = Sinon.stub(servicesObject, 'authorizeUser').resolves(fakeResult)
   })

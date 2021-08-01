@@ -206,7 +206,7 @@ describe('authorizeUser()', async function () {
     const token = await authorizeUser(userToAuthorize)
     expect(token).to.have.property('accessToken')
     expect(token).to.have.property('refreshToken')
-    const refreshDecoded = jwt.verify(token.refreshToken, config.tokenSecret as string)
+    const refreshDecoded = jwt.verify(token.refreshToken, config.refreshTokenSecret as string)
     const decoded = jwt.verify(token.accessToken, config.tokenSecret as string) as any
     expect(decoded.firstName).to.be.equal('Amin')
     expect(decoded.lastName).to.be.equal('Foroutan')
