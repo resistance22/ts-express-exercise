@@ -38,7 +38,7 @@ export const generateAccessToken = (obj: object) => {
   return jwt.sign(obj, config.tokenSecret as string, { expiresIn: '1h' })
 }
 export const generateRefreshToken = (obj: object) => {
-  return jwt.sign(obj, config.tokenSecret as string)
+  return jwt.sign(obj, config.refreshTokenSecret as string)
 }
 
 export const setRefreshToken = async (email: string, token: string) => {
